@@ -12,7 +12,7 @@ RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/loca
 # Install TYPO3
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    wget sendmail \
+    wget sendmail libnss3-tools \
     # Configure PHP
     libxml2-dev libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -37,3 +37,23 @@ RUN apt-get update && \
     libpng-dev \
     zlib1g-dev && \
     rm -rf /var/lib/apt/lists/* /usr/src/*
+
+RUN cd /tmp && wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 && \
+    mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert && \
+    chmod +x /usr/bin/mkcert && \
+    mkcert --version && \
+    mkdir -p /etc/apache2/ssl && \
+    cd /etc/apache2/ssl && \
+    mkcert -install && \
+    mkcert localhost 127.0.0.1 ::1 && \
+    ls -la && \
+    mv localhost+2-key.pem cert-key.pem && \
+    mv localhost+2.pem cert.pem 
+ 
+
+RUN a2enmod ssl && a2enmod rewrite
+
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+EXPOSE 80
+EXPOSE 443
