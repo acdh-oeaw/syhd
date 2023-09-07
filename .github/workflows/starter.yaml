@@ -21,7 +21,7 @@ jobs:
 # with org/repo-name (all lower case).
 # E. g. ACDH-OEAW/OpenAtlas-Discovery -> acdh-oeaw/openatlas-discovery
       registry_root: ghcr.io/${{ github.repository }}/
-      default_port: "80"
+      default_port: "443"
       submodules: "true"
 #      herokuish_base_image: ghcr.io/acdh-oeaw/herokuish-for-cypress/main:latest-22
       APP_NAME: syhd
