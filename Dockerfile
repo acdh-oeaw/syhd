@@ -51,7 +51,7 @@ RUN cd /tmp && wget https://github.com/FiloSottile/mkcert/releases/download/v1.4
     mv localhost+2.pem cert.pem 
  
 
-RUN a2enmod ssl && a2enmod rewrite
+RUN a2enmod ssl && a2enmod rewrite && a2enmod proxy_http
 
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
